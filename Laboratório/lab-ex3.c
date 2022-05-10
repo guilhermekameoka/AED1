@@ -1,34 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-    int main(){
+int main()
+{
 
-    int bit1, bit2, bit3, bit4, decimal;
+    int bit[4], decimal;
 
-    printf("digite o 1o bit: ");
-    scanf("%d", &bit1);
+    for (int i = 1; i < 5; i++)
+    {
 
-    printf("digite o 2o bit: ");
-    scanf("%d", &bit2);
-
-    printf("digite o 3o bit: ");
-    scanf("%d", &bit3);
-
-    printf("digite o 4o bit: ");
-    scanf("%d", &bit4);
-
-
-    decimal = pow((bit4*2),0) + pow((bit3*2),1) + pow((bit2*2),2) + pow((bit1*2),3);
-
-
-    printf("O numero binario %d%d%d%d corresponde ao numero decimal %d", bit1, bit2, bit3, bit4, decimal);
-
-
-
-
-
-
-
+        printf("digite o %do bit: ", i);
+        scanf("%d", &bit[i]);
     }
 
+    decimal = pow((bit[4] * 2), 0) + pow((bit[3] * 2), 1) + pow((bit[2] * 2), 2) + pow((bit[1] * 2), 3);
 
+    printf("O numero binario %d%d%d%d corresponde ao numero decimal %d", bit[1], bit[2], bit[3], bit[4], decimal);
+}
