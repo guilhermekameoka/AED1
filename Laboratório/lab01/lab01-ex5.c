@@ -10,7 +10,7 @@ int main()
     for (i = 1; i <= n; i++) // linha
     {
         for (j = 1; j <= i; j++) // coluna
-            printf("%4d", k++); // até a casa da centena
+            printf("%d ", k++);
 
         printf("\n");
     }
