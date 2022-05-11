@@ -11,7 +11,7 @@ int main()
 
         printf("Bolao jogador %d R$: ", i + 1);
         scanf("%d", &amigo[i]);
-        total = total + amigo[i];
+        total += amigo[i];
     }
 
     printf("Informe o valor do premio: ");
