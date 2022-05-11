@@ -3,13 +3,13 @@
 int main()
 {
 
-    int amigo[3], total;
+    int amigo[3], i, total = 0;
     float val_premio, recebe[3];
 
-    for (int i = 1; i <= 3; i++)
+    for (i = 0; i < 3; i++)
     {
 
-        printf("Bolao jogador %d R$: ", i);
+        printf("Bolao jogador %d R$: ", i + 1);
         scanf("%d", &amigo[i]);
         total = total + amigo[i];
     }
@@ -17,10 +17,11 @@ int main()
     printf("Informe o valor do premio: ");
     scanf("%f", &val_premio);
 
-    for (int j = 1; j <= 3; j++)
+    for (i = 0; i < 3; i++)
     {
-        recebe[j] = val_premio * (amigo[j] / total);
-        printf("Jogador %d recebera R$: %.1f\n", j, recebe[j]);
+        recebe[i] = amigo[i] * val_premio / total;
+        printf("Jogador %d recebera R$: %.1f\n", i + 1, recebe[i]);
     }
+
     return 0;
 }
