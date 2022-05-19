@@ -4,11 +4,11 @@ int main()
 {
 
     char nome[] = "Jose Augusto";
-    int i=0;
+    char *p = &nome;
 
-    for (int i = 0; nome[i] != '\0'; i++)
+    while (*p != '\0')
     {
-
-        printf("%c", nome[i]);
+        printf("%c", *p);
+        p++;
     }
 }
