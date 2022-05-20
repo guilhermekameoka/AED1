@@ -5,6 +5,7 @@ typedef struct ponto
 {
 
     int x, y;
+    
 } ponto;
 
 int main()
