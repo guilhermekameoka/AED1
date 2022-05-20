@@ -6,7 +6,7 @@ int main()
 
     int n, *v, i, acum_par = 0, acum_impar = 0;
 
-    printf("Digite o tamanho do seu vetor: ");
+    printf("Quantos inteiros serao lidos: ");
     scanf("%d", &n);
 
     v = (int *)malloc(n * sizeof(int));
@@ -14,7 +14,7 @@ int main()
     for (i = 0; i < n; i++)
     {
 
-        printf("Digite o valor de v[%d]: ", i);
+        printf("%do inteiro: ", i+1);
         scanf("%d", &v[i]);
     }
 
