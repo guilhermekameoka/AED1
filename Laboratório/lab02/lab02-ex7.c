@@ -33,6 +33,6 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        i < n ? printf("(%d,%d);", vet[i].x, vet[i].y) : printf("(%d,%d)", vet[i].x, vet[i].y);
+        i < (n-1) ? printf("(%d,%d);", vet[i].x, vet[i].y) : printf("(%d,%d)", vet[i].x, vet[i].y);
     }
 }
