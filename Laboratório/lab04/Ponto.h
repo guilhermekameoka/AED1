@@ -13,7 +13,7 @@ Ponto *gera_pto(); // cria uma instância de um ponto sem valores
 
 
 // Funcao set_pto()
-Ponto *set_pto(Ponto *p, float x, float y); // atribui os valores das coordenadas x e y de um ponto
+int set_pto(Ponto *p, float x, float y); // atribui os valores das coordenadas x e y de um ponto
 
 // Entrada: Ponteiro para struct ponto e valores float para x e y
 // Pre-condicao: Ter alocado memoria anteriormente
@@ -23,7 +23,7 @@ Ponto *set_pto(Ponto *p, float x, float y); // atribui os valores das coordenada
 
 
 // Funcao get_pto()
-Ponto *get_pto(Ponto *p, float *x, float *y); // retorna os valores das coordenadas x e y de um ponto
+int get_pto(Ponto *p, float *x, float *y); // retorna os valores das coordenadas x e y de um ponto
 
 // Entrada: ponteiro para Ponto e dois ponteiros para float
 // Pre-condicao: Existir valores para Ponto
