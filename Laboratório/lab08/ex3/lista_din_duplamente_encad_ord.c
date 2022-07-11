@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "lista.h"
+
+struct no
+{
+    int info;
+    struct no *prox;
+    struct no *ant;
+};
+
+Lista cria_lista()
+{
+    return NULL;
+}
+
+int lista_vazia(Lista lst)
+{
+    if (lst == NULL)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int insere_elemento(Lista *lst, int elem)
+{
+    // aloca um novo no
+    Lista N = (Lista)malloc(sizeof(struct no));
+
+    if (N == NULL)
+    {
+        return 0; // falha: no nao alocado
+    }
+
+    N->info = elem;
+    N->ant = NULL;
+    N->prox = *lst;
+
+    if (lista_vazia(*lst) || elem <= (*lst)->info)
+    {
+        (*lst)->ant = N; // Faz o antecessor do 1 no ser o novo no
+        *lst = N;        // faz a lista apontar para o novo no
+        return 1;
+    }
+
+    // percorrimento da lista (elem > 1o no da lista)
+    Lista aux = *lst; // faz o aux apontar para o 1o no
+    while (aux->prox != NULL && aux->prox->info < elem)
+    {
+        aux = aux->prox; // avanca
+    }
+    // insere o novo elemento na lista
+    N->info = elem;
+    N->ant = aux->prox;
+    N->prox = *lst;
+    return 1;
+}
+
+int remove_elemento(Lista *lst, int elem)
+{
+    if (lista_vazia(*lst))
+    {
+        return 0;
+    }
+
+    Lista aux = *lst; // Faz aux apontar para o primeiro no
+    while (aux->prox != NULL && aux->info != elem)
+    {
+        aux = aux->prox;
+    }
+
+    if (aux->info != elem)
+    {
+        return 0;
+    }
+    if (aux->prox != NULL)
+    {
+        (aux)->prox->ant = aux->ant;
+    }
+    if (aux->ant != NULL)
+    {
+        (aux)->ant->prox = aux->prox;
+    }
+    if (aux == *lst)
+    {
+        *lst = aux->prox;
+    }
+    free(aux);
+    return 1;
+}
+
+void imprime_lista(Lista lst)
+{
+    printf("Lista: {");
+    for (lst; lst != NULL; lst = lst->prox)
+    {
+        printf((lst->prox != NULL) ? "%d, " : "%d}", lst->info);
+    }
+}
