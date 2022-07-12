@@ -103,7 +103,7 @@ int main()
             break;
 
         case 6:
-            a = maior_elem(lst);
+            a = menor_elem(lst);
 
             getch();
             break;

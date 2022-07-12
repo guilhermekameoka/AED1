@@ -205,7 +205,8 @@ int mostrar_lista(Lista lst)
 
 void concatena(Lista *lst)
 {
-    int i = 0, j = 0, elem, lst1[max], lst2[max];
+   
+    int i = 0, j = 0, elem;
     printf("Insira o tamanho da Lista 1: ");
     scanf("%d", &i);
 
@@ -218,25 +219,32 @@ void concatena(Lista *lst)
         return;
     }
 
-    printf("\n\n\tLista 1\n");
+    Lista lst1 = criar_lista();
+    Lista lst2 = criar_lista();
+
+    printf("\n\n\tLista 1");
     for (int aux = 0; aux < i; aux++)
     {
         printf("\nDigite o [%d] elemento: ", aux + 1);
-        scanf("%d", &lst1[aux]);
-
-        (*lst)->no[(*lst)->fim] = lst1[aux];
-        (*lst)->fim++;
+        scanf("%d", &elem);
+        insere_ord(lst1, elem);
     }
 
-    printf("\n\n\tLista 2\n");
+    printf("\n\n\tLista 2");
     for (int aux = 0; aux < j; aux++)
     {
         printf("\nDigite o [%d] elemento: ", aux + 1);
-        scanf("%d", &lst2[aux]);
-
-        (*lst)->no[(*lst)->fim] = lst2[aux];
-        (*lst)->fim++;
+        scanf("%d", &elem);
+        insere_ord(lst2, elem);
     }
+
+    // Lista 1
+    for (int aux = 0; aux < lst1->fim; aux++)
+        insere_ord((*lst), lst1->no[aux]);
+
+    // Lista 2
+    for (int aux = 0; aux < lst2->fim; aux++)
+        insere_ord((*lst), lst2->no[aux]);
 
     printf("Lista concatenada com SUCESSO!");
 

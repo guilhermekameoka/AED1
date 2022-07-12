@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "lista.h"
 
 struct no
@@ -23,7 +24,7 @@ int lista_vazia(Lista lst)
 
 int insere_ord(Lista *lst, int elem)
 {
-    Lista N = (Lista)malloc(sizeof(struct no));
+    Lista N = (Lista) malloc(sizeof(struct no));
 
     if (N == NULL)
         return 0;
@@ -84,7 +85,7 @@ int remove_ord(Lista *lst, int elem)
 
 int tamanho(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para o 1 no da lista
@@ -102,30 +103,30 @@ int tamanho(Lista *lst)
 
 float media(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para o 1 no da lista
-    int ac = 0, tam;
+    int ac = aux->info, tam;
     float media;
 
     while (aux->prox != NULL) // percorre a lista
     {
-        ac += aux->info;
         aux = aux->prox;
+        ac += aux->info;
     }
 
     tam = tamanho(lst);
     media = ac / tam;
 
-    printf("\nMedia total: %f\n", media);
+    printf("\nMedia total: %.2f\n", media);
 
     return media;
 }
 
 int iguais(Lista *lst1, Lista *lst2)
 {
-    if (lst1 == NULL || lista_vazia(lst1) == 1 || lst2 == NULL || lista_vazia(lst2) == 1)
+    if (lst1 == NULL || lista_vazia(*lst1) == 1 || lst2 == NULL || lista_vazia(*lst2) == 1)
         return 0; // falha
 
     Lista aux = *lst1;  // ponteiro auxiliar para percorrimento da 1 lista
@@ -144,7 +145,7 @@ int iguais(Lista *lst1, Lista *lst2)
     }
 }
 
-int remove_todos(Lista *lst, int elem)
+int remove_todos(Lista *lst)
 {
     int R;
 
@@ -153,10 +154,10 @@ int remove_todos(Lista *lst, int elem)
 
     Lista aux = *lst;
 
-    while (aux->prox != NULL && aux->info != elem)
+    while (aux->prox != NULL)
         aux = aux->prox;
 
-    if (aux->info != elem || aux->prox == NULL || aux->prox->info > elem) // trata o final da lista
+    if (aux->prox == NULL) 
         return 0;                                                         // falha
 
     else
@@ -172,7 +173,7 @@ int remove_todos(Lista *lst, int elem)
 
         free(aux);
 
-        R = remove_todos(&lst, elem);
+        R = remove_todos(lst);
         return R;
     }
     return 1;
@@ -180,7 +181,7 @@ int remove_todos(Lista *lst, int elem)
 
 int remove_maior(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0;
 
     Lista aux = *lst; // ponteiro auxiliar
@@ -190,7 +191,7 @@ int remove_maior(Lista *lst)
     if (aux->prox == aux)
     {
         maior = aux->info; // atual no da list
-        return maior;
+        return 1;
     }
 
     // Encontrando o maior elemento
@@ -215,21 +216,11 @@ int remove_maior(Lista *lst)
     return 1;
 }
 
-Lista multiplos_tres(Lista *lst)
+void mostra_lista(Lista lst)
 {
-    int multiplo;
-
-    if (lst == NULL || lista_vazia(lst) == 1)
-        return 0;
-
-    Lista aux = *lst; // ponteiro auxiliar
-    Lista L2 = cria_lista(); // Nova lista
-    
-    //Encontrando o elemento e inserindo na nova lista.
-    for(aux->prox; aux->prox != NULL; aux = aux->prox)
-        if(aux->info % 3 == 0)
-            insere_ord(&L2, aux->info);
-
-    free (aux);
-    return L2;
+    printf("Lista: {");
+    for (lst; lst != NULL; lst = lst->prox)
+    {
+        printf((lst->prox != NULL) ? "%d, " : "%d}", lst->info);
+    }
 }

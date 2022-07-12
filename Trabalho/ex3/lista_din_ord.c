@@ -23,7 +23,7 @@ int lista_vazia(Lista lst)
 }
 
 /*void lista_cheia(){
- na pratica, tamanho da lista � limitado pelo espaco de memoria
+ na pratica, tamanho da lista   limitado pelo espaco de memoria
  fazemos a verificacao durante a inserecao */
 
 int insere_ord(Lista *lst, int elem)
@@ -51,9 +51,33 @@ int insere_ord(Lista *lst, int elem)
     return 1;
 }
 
+int insere_elem(Lista *lst, int elem)
+{
+    // aloca um novo no
+    Lista N = (Lista)malloc(sizeof(struct no));
+    if (N == NULL)
+        return 0; // falha: no nao alocado
+
+    N->info = elem;
+    if (lista_vazia(*lst) || elem <= (*lst)->info)
+    {
+        N->prox = *lst; // aponta para o 1o no atual da lista
+        *lst = N;       // faz a lista apontar para o novo no
+        return 1;
+    }
+
+    // percorrimento da lista (elem > 1o no da lista)
+    Lista aux = *lst; // faz o aux apontar para o 1o no
+
+    // insere o novo elemento na lista
+    N->prox = aux->prox;
+    aux->prox = N;
+    return 1;
+}
+
 int remove_ord(Lista *lst, int elem)
 {
-    if (lista_vazia(lst) == 1 || elem < (*lst)->info)
+    if (lista_vazia(*lst) == 1 || elem < (*lst)->info)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para o 1 no
@@ -79,7 +103,7 @@ int remove_ord(Lista *lst, int elem)
 
 int tamanho(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para o 1 no da lista
@@ -91,36 +115,36 @@ int tamanho(Lista *lst)
         tam++;
     }
 
-    printf("O tamanho da lista eh: %d", tam+1);
+    printf("O tamanho da lista eh: %d", tam + 1);
     return tam + 1;
 }
 
 float media(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para o 1 no da lista
-    int ac = 0, tam;
+    int ac = aux->info, tam;
     float media;
 
     while (aux->prox != NULL) // percorre a lista
     {
-        ac += aux->info;
         aux = aux->prox;
+        ac += aux->info;
     }
 
     tam = tamanho(lst);
     media = ac / tam;
 
-    printf("\nMedia total: %f\n", media);
+    printf("\nMedia total: %.2f\n", media);
 
     return media;
 }
 
 int verifica_igual(Lista *lst1, Lista *lst2)
 {
-    if (lst1 == NULL || lista_vazia(lst1) == 1 || lst2 == NULL || lista_vazia(lst2) == 1)
+    if (lst1 == NULL || lista_vazia(*lst1) == 1 || lst2 == NULL || lista_vazia(*lst2) == 1)
         return 0; // falha
 
     Lista aux = *lst1;  // ponteiro auxiliar para percorrimento da 1 lista
@@ -139,47 +163,80 @@ int verifica_igual(Lista *lst1, Lista *lst2)
     }
 }
 
-// Intercala
-
-Lista inverte_lista(Lista lst)
+int inverte_lista(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0; // falha
 
-    Lista nova_lista = criar_lista(nova_lista); // aloca mem pra nova_lista
-    Lista lista;
+    Lista lista = criar_lista(); // aloca mem pra nova_lista
+    Lista aux = *lst;
 
-    while (lst != NULL)
+    int max, aux1[max], info, i = 0;
+
+    // Define o max
+    while (aux->prox != NULL)
     {
-        lista = lst;
-        lst = lst->prox; // avanca
-        lista->prox = nova_lista;
-        nova_lista = lista;
+        aux1[i] = aux->info;
+        max++;
+        i++;
+        aux = aux->prox; // avanca
     }
-    lst = nova_lista;
 
-    mostra_lista(nova_lista);
+    // Insere na nova_lista
+    while (lst != NULL || max != 0)
+    {
+        insere_elem(&lista, aux1[max]);
+        max--;
+    }
 
-    return nova_lista;
+    lst = &lista;
+
+    return 1;
 }
 
 Lista gera_impares(Lista *lst)
 {
-    Lista nova_lista = (Lista)malloc(sizeof(struct no));
+    Lista nova_lista = criar_lista();
 
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para percorrimento da lista
 
     while (aux->prox != NULL) // percorre ate o fim
     {
-        aux = aux->prox; // avanca
+        if (aux->info % 2 != 0) // se for impar, adicionar elemento na nova lista...
+            insere_ord(&nova_lista, aux->info);
 
-        if (aux->prox->info % 2 != 0) // se for impar, adicionar elemento na nova lista...
-            aux->prox->info = nova_lista;
+        aux = aux->prox; // avanca
     }
     return nova_lista;
+}
+
+int remove_impares(Lista *lst)
+{
+    int i, aux = 0, R;
+
+    if (*lst == NULL || lista_vazia(*lst) == 1) // a lista precisa existir e nao pode estar vazia
+        return 0;                               // falha
+
+    else
+    {
+        Lista aux = *lst; // ponteiro auxiliar para percorrimento
+
+        for (aux->prox; aux->prox != NULL; aux = aux->prox)
+            if (aux->info % 2 == 1)
+                break;
+
+        if (aux->prox == NULL) // a lista precisa existir e nao pode estar vazia
+            return 1;
+
+        remove_ord(lst, aux->info);
+
+        R = remove_impares(lst);
+        return R;
+    }
+    return 1; // sucesso
 }
 
 void mostra_lista(Lista lst)

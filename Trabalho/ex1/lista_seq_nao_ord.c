@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista_seq.h"
+#include "lista_seq_nao_ord.h"
 
 #define max 5
 struct lista
@@ -194,12 +194,7 @@ void concatena(Lista *lst)
     }
 
     Lista lst1 = criar_lista();
-    if (lst1 == NULL)
-        return;
-
     Lista lst2 = criar_lista();
-    if (lst2 == NULL)
-        return;
 
     printf("\n\n\tLista 1");
     for (int aux = 0; aux < i; aux++)
@@ -219,17 +214,11 @@ void concatena(Lista *lst)
 
     // Lista 1
     for (int aux = 0; aux < lst1->fim; aux++)
-    {
-        (*lst)->no[(*lst)->fim] = lst1->no[aux];
-        (*lst)->fim++;
-    }
+        insere_elem((*lst), lst1->no[aux]);
 
     // Lista 2
     for (int aux = 0; aux < lst2->fim; aux++)
-    {
-        (*lst)->no[(*lst)->fim] = lst2->no[aux];
-        (*lst)->fim++;
-    }
+        insere_elem((*lst), lst2->no[aux]);
 
     printf("Lista concatenada com SUCESSO!");
 

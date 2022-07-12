@@ -102,7 +102,7 @@ int main()
             break;
 
         case 6:
-            if (gera_impares(lst))
+            if (remove_impares(&lst))
                 printf("\n0 Impares na lista!\n \n");
 
             getch();
@@ -128,7 +128,7 @@ int main()
             // case 9:   intercalar  lista
 
         case 10:
-            Lista lst2 = inverte_lista(lst);
+            a = inverte_lista(&lst);
 
             if (lst2 != NULL)
                 printf("\nLista invertida!\n");
@@ -141,9 +141,6 @@ int main()
 
         case 11:
             Lista lst1 = gera_impares(&lst);
-
-            printf("Lista gerada com sucesso: ");
-
             mostra_lista(lst1);
             getch();
             break;

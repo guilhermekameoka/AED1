@@ -93,16 +93,19 @@ int main()
             break;
 
         case 5:
-            a = tamanho(&lst);
+            a = tamanho(lst);
 
             if (a == 0)
                 printf("\n LISTA VAZIA!\n \n");
 
+            else
+                printf("\nTamanho = %d\n", a);
+            
             getch();
             break;
 
         case 6:
-            if (gera_impares(lst))
+            if (gera_impares(&lst))
                 printf("\n0 Impares na lista!\n \n");
 
             getch();
@@ -130,7 +133,7 @@ int main()
             // case 9:   intercalar  lista
 
         case 10:
-            Lista lst2 = inverte_lista(lst);
+            Lista lst2 = inverte_lista(&lst);
 
             if (lst2 != NULL)
                 printf("\nLista invertida!\n");

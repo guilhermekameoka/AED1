@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "lista.h"
 
 struct no
@@ -23,13 +24,13 @@ int lista_vazia(Lista lst)
 
 int insere_final(Lista *lst, int elem)
 {
-    Lista N = (Lista)malloc(sizeof(struct no));
+    Lista N = (Lista) malloc(sizeof(struct no));
 
     if (N == NULL)
         return 0;   // No nao alocado
     N->info = elem; // Insere elemento
 
-    if (lista_vazia(lst) == 1)
+    if (lista_vazia(*lst) == 1)
     {
         N->prox = N;
         *lst = N;
@@ -47,7 +48,7 @@ int insere_final(Lista *lst, int elem)
 
 int remove_inicio(Lista *lst, int *elem)
 {
-    if (lista_vazia(lst) == 1)
+    if (lista_vazia(*lst) == 1)
         return 0; // ListaVazia
 
     Lista aux = (*lst)->prox;
@@ -71,7 +72,7 @@ int insere(Lista *lst, int elem)
 
     N->info = elem; // Insere elemento
 
-    if (lista_vazia(lst) == 1)
+    if (lista_vazia(*lst) == 1)
     {
         N->prox = N;
         *lst = N;
@@ -97,7 +98,7 @@ int insere_posicao(Lista *lst, int elem, int pos)
 
     N->info = elem; // Insere elemento
 
-    if (lista_vazia(lst) == 1)
+    if (lista_vazia(*lst) == 1)
     {
         N->prox = N;
         *lst = N;
@@ -127,27 +128,26 @@ int insere_posicao(Lista *lst, int elem, int pos)
     return 1;
 }
 
-int remove_posicao(Lista *lst, int elem, int pos)
+int remove_posicao(Lista *lst, int pos)
 {
     int loc = 0;
 
-    Lista N = (Lista)malloc(sizeof(struct no));
-
-    if (lista_vazia(lst) == 1 || elem < (*lst)->info)
+    if (lista_vazia(*lst) == 1)
         return 0; // falha
 
     Lista aux = *lst; // ponteiro auxiliar para o 1 no
     // trata elemento = 1 no da lista
-    if (elem == (*lst)->info)
+    if (pos == 0)
     {
         *lst = aux->prox; // lista aponta para o 2 no
         free(aux);
         return 1;
     }
+
     // percorrimento ate o final da lista ou ate achar a posicao
     while (aux->prox != NULL && pos != loc)
     {
-        N = N->prox;
+        aux = aux->prox;
         loc++;
     }
 
@@ -178,7 +178,7 @@ int tamanho(Lista *lst)
 
 int maior_elem(Lista *lst)
 {
-    if (lst == NULL || lista_vazia(lst) == 1)
+    if (lst == NULL || lista_vazia(*lst) == 1)
         return 0;
 
     Lista aux = *lst; // ponteiro auxiliar
@@ -205,7 +205,7 @@ int remover_pares(Lista *lst)
 {
     int R;
 
-    if (lista_vazia(lst) == 1)
+    if (lista_vazia(*lst) == 1)
         return 0; // ListaVazia
 
     else
@@ -224,10 +224,8 @@ int remover_pares(Lista *lst)
 
         free(aux);
 
-        R = remove_pares(lst);
+        R = remover_pares(lst);
         return R;
     }       
     return 1; // sucesso
 }
-
-void mostra_lista(Lista lst)
