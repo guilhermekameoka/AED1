@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "polinomio.h"
 
 struct no
@@ -9,6 +10,18 @@ struct no
     int pot;  // Valor de n;
     struct no *prox;
 };
+
+int lista_vazia(Polinomio p)
+{
+    if (p == NULL)
+    {
+        return 1; // lista vazia
+    }
+    else
+    {
+        return 0; // lista nao vazia
+    }
+}
 
 int cria_polinomio()
 {
@@ -67,15 +80,63 @@ int insere_termo(Polinomio *p, int a, int pot)
     }
 }
 
-int elimina_termo(Polinomio p, int numero)
+int elimina_termo(Polinomio *p, int numero)
 {
+    if (lista_vazia(p) == 1)
+    {
+        return 0; // falha
+    }
+
+    Polinomio aux = *p;
+
+    // Percorre a lista ate achar a o no a ser removido
+    while (aux->prox != NULL && aux->prox->pot != numero)
+    {
+        aux = aux->prox; // Avanca
+    }
+
+    // Nao encontrou o no a ser removido
+    if (aux->prox == NULL)
+    {
+        return 0;
+    }
+
+    Polinomio aux2 = aux->prox; // aponta no a ser removido
+    aux->prox = aux2->prox;     // retira no da lista
+    free(aux2);                 // libera memoria alocada
+    return 1;
 }
 
 void imprime_polinomio(Polinomio p)
 {
+    printf("P(x) = ");
+
+    for (p; p != NULL; p = p->prox)
+    {
+        // +a +exp
+        if (p->info >= 0 && p->prox->info >= 0)
+        {
+            printf("+%dx^%d + ", p->info, p->pot);
+        }
+        // +a -exp
+        else if (p->info >= 0 && p->prox->info < 0)
+        {
+            printf("+%dx^%d - ", p->info, p->pot);
+        }
+        // -a -exp
+        else if ((p->info < 0 && p->prox->info < 0))
+        {
+            printf("-%dx^%d - ", p->info, p->pot);
+        }
+        // -a +exp
+        else if ((p->info < 0 && p->prox->info >= 0))
+        {
+            printf("-%dx^%d + ", p->info, p->pot);
+        }
+    }
 }
 
-Polinomio reinicializar_polinômio(Polinomio p)
+Polinomio reinicializar_polinomio(Polinomio p)
 {
     free(p); // libera o polinomio
 
@@ -97,7 +158,8 @@ int calcula_polinomio(Polinomio *p, int x)
     while (aux->prox != NULL)
     {
         aux = aux->prox; // avanca
-        resultado += ((*p)->info) * (x ^ ((*p)->pot));
+        resultado += ((*p)->info) * pow(x, ((*p)->pot));
     }
+    printf("P(x) = %d", resultado);
     return resultado;
 }
